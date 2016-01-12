@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var path = require('path');
-// var neo4j =require("../neo4j/neo4j.js");
-var neo4jNpm = require('node-neo4j');
-db = new neo4jNpm('http://localhost:7474');
+var neo4j = require('node-neo4j');
+db = new neo4j('http://localhost:7474');
 
 
 /* GET home page. */
@@ -12,24 +11,7 @@ router.get('/', function(req, res, next) {
 });
 
 
-router.get('/userlist', function(req, res) {
-  neo4j.runCypherQuery(
-    'MATCH (n:user) RETURN n LIMIT 25', 
-    {
-    }, function (err, resp) {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log('~~~',resp);
-      }
-    }
-  );
-
-  res.json('~~~ Reading data from API~~~');	
-});
-
-
-router.get('/userlistNpm',function(req,res){
+router.get('/userlist',function(req,res){
   db.cypherQuery(
     'MATCH (n:user) RETURN n LIMIT 25',
     {},
