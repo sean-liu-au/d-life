@@ -5,11 +5,32 @@ var neo4j = require('node-neo4j');
 db = new neo4j('http://localhost:7474');
 
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'HuHuHu' });
+  res.render('index', { title: 'Know Your Life' });
 });
 
+
+router.post('/auth', function(req, res, next) {
+  var auth=req.body;
+  db.cypherQuery(
+    "MATCH (n:user{email:'"+auth.username+"', password:'"+auth.password+"'}) RETURN n",
+    {},
+    function (err, result) {
+      if (err) {
+        return console.log(err);
+      }
+
+      if (result.data.length!=0) {        
+        res.redirect('/notes');
+      }else{
+        res.redirect('/');
+      }  
+    });
+});
+
+router.get('/notes',function(req,res){
+  res.render('notes', { title: 'Notes' });
+});
 
 router.get('/userlist',function(req,res){
   db.cypherQuery(
