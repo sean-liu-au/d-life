@@ -6,3 +6,17 @@ body {
 a {
   color: #00B7FF;
 }
+
+
+.header{
+	background-color:#87CEFA;
+	padding-left: 10px;
+}
+
+.header:hover{
+	cursor: pointer;
+}
+
+input{
+	padding-left: 10px;
+}

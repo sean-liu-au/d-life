@@ -20,7 +20,8 @@ router.post('/auth', function(req, res, next) {
         return console.log(err);
       }
 
-      if (result.data.length!=0) {        
+      if (result.data.length!=0) { 
+        res.cookie('loginUser', auth.username,{ maxAge: 900000, httpOnly: true });       
         res.redirect('/notes');
       }else{
         res.redirect('/');
@@ -28,9 +29,46 @@ router.post('/auth', function(req, res, next) {
     });
 });
 
+
+router.get('/logout',function(req,res){
+  res.clearCookie('loginUser');
+  res.redirect('/');
+});
+
+
 router.get('/notes',function(req,res){
+  var loginUser = req.cookies.loginUser;
+  if (loginUser=='' || loginUser==undefined) {
+    res.redirect('/');
+  };
+
   res.render('notes', { title: 'Notes' });
 });
+
+
+router.post('/addNote',function(req,res){
+  var loginUser = req.cookies.loginUser;
+  if (loginUser=='' || loginUser==undefined) {
+    res.redirect('/');
+  };
+  
+  var note=req.body;
+  console.log('~~~~',req.cookies.loginUser);
+  console.log('~~~',note);
+  // console.log('~~~',req.cookie);
+
+  // db.cypherQuery(
+  //   "MATCH (n:user{email:'"+auth.username+"', password:'"+auth.password+"'}) RETURN n",
+  //   {},
+  //   function (err, result) {
+  //     if (err) {
+  //       return console.log(err);
+  //     }
+  //     res.redirect('/notes');
+  // });  
+});
+
+
 
 router.get('/userlist',function(req,res){
   db.cypherQuery(

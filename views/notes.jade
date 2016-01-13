@@ -1,5 +1,26 @@
 extends layout
 
 block content
-  div.container
-  h1 Add Notes  
+	script(src='/javascripts/notes.js')
+	div.container(ng-app='appNotes' ng-controller='notesCtrl')
+		h3.header(ng-click='showAddNote=true') Add A Note 
+		form.form-horizontal(method="post", id="addNoteForm", action='/addNote' ng-show='showAddNote')
+			label About Who (谁)
+			select(name='aboutWho')
+				option(ng-repeat='x in members' ng-value='x.email') {{x.firstname+' '+x.lastname}}
+			| <br><br>	
+			label KeyWord (主题)
+			input.span3(id="keyword", name="keyword")
+			| <br><br>
+			label Details (什么)
+			input.span3(id="detail", name="detail")
+			| <br><br>
+			label Value (量度)
+			input.span3(id="value", name="value")
+			| <br><br>
+			input.btn(type="submit", value="Save")
+		h3.header(ng-click='showAddNote=false') What Happened
+		div(ng-show='!showAddNote')
+			h4 Data	
+		a.btn.btn-warning(href='/logout') Logout
+
