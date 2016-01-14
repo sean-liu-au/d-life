@@ -1,0 +1,48 @@
+生活数字 数字生活
+D-Lift & Life-D 
+Shall Your EveryDay Feelings.
+
+--restore database Danger!!!
+match ()-[r]-() delete r
+match (n) delete n
+
+
+create  (u:user {email:'botfc.au@gmail.com',lastname:'Liu',firstname:'Sean', password:'W@5lyb2016'})
+create  (u:user {email:'guomengjie@gmail.com',lastname:'Guo',firstname:'Monica', password:'W@5gmjave'})
+
+create (f:family {name:'Monica & Sean'})
+match (u:user)
+create (u)-[r:userBelongToFamily]-(f)
+--Create family 
+
+
+-- Create note
+match (creator:user {email:'botfc.au@gmail.com'})
+match (tagged:user {email:'guomengjie@gmail.com'})
+
+merge (keyword:keyword {keyword:'不关灯'})
+merge (tagged)-[feel:feel]->(keyword)
+
+merge (date:date {date:'2016-01-14'})
+
+create (note:note {details:'厕所灯不关'})
+
+create (note)-[linkTo:linkTo]->(keyword)
+create (note)-[createdBy:createdBy]->(creator)
+create (note)-[aboutUser:aboutUser]->(tagged)
+create (note)-[createdOn:createdOn {time:timestamp()}]->(date)
+
+
+
+-- List Note from date
+-- createdBy, keyword, details
+match  (login:user {email:'guomengjie@gmail.com'})
+match  (login)-[r1:userBelongToFamily]->(f:family)
+match  (members:user)-[r2:userBelongToFamily]->(f)
+match  (date:date {date:'2016-01-13'}) 
+match  (note:note)-[createdOn:createdOn]->(date) 
+match  (note)-[about:aboutUser]->(user) 
+match  (note)-[link:linkTo]->(keyword:keyword) 
+match  (note)-[create:createdBy]->(creator:user) 
+return {about:user.firstname,creator:creator.firstname, keyword:keyword.keyword, details:note.details}  as note 
+order by user.firstname, keyword.keyword, creator.firstname, note.details 

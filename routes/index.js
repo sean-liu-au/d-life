@@ -42,7 +42,7 @@ router.get('/notes',function(req,res){
     res.redirect('/');
   };
 
-  res.render('notes', { title: 'Notes' });
+  res.render('notes', { title: 'Notes'});
 });
 
 
@@ -51,21 +51,19 @@ router.post('/addNote',function(req,res){
   if (loginUser=='' || loginUser==undefined) {
     res.redirect('/');
   };
-  
-  var note=req.body;
-  console.log('~~~~',req.cookies.loginUser);
-  console.log('~~~',note);
-  // console.log('~~~',req.cookie);
 
-  // db.cypherQuery(
-  //   "MATCH (n:user{email:'"+auth.username+"', password:'"+auth.password+"'}) RETURN n",
-  //   {},
-  //   function (err, result) {
-  //     if (err) {
-  //       return console.log(err);
-  //     }
-  //     res.redirect('/notes');
-  // });  
+  var note=req.body;
+  var createdBy=req.cookies.loginUser;
+
+  db.cypherQuery(
+    "MATCH (n:user{email:'"+auth.username+"', password:'"+auth.password+"'}) RETURN n",
+    {},
+    function (err, result) {
+      if (err) {
+        return console.log(err);
+      }
+      res.redirect('/notes');
+  });  
 });
 
 
