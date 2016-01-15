@@ -20,3 +20,8 @@ a {
 input{
 	padding-left: 10px;
 }
+
+.block{
+	display: inline-block;
+	margin-right: 10px;
+}

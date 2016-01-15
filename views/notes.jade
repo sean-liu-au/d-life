@@ -3,7 +3,10 @@ extends layout
 block content
 	script(src='/javascripts/notes.js')
 	div.container(ng-app='appNotes' ng-controller='notesCtrl')
-		h3.header(ng-click='showAddNote=true') 写一条儿 (Add A Note) 
+		h2.block Welcome To Life-D, 
+			h4.block #{loginUser} 
+		a.btn.btn-warning(href='/logout') Logout
+		h3.header(ng-click='showAddNote=true;showToday=false;showLifeD=false') 写一条儿 (Add A Note) 
 		form.form-horizontal(method="post", id="addNoteForm", action='/addNote' ng-show='showAddNote')
 			label About Who (谁)
 			select(name='about' id='about')
@@ -19,11 +22,12 @@ block content
 			input.span3(id="value", name="value")
 			| <br><br>
 			input.btn(type="button", value="Save" ng-click='addNote()')
-		h3.header(ng-click='showAddNote=false') 今儿有啥 (What Happened Today)
-		div(ng-show='!showAddNote')
+		h3.header(ng-click='showAddNote=false;showToday=true;showLifeD=false') 今儿有啥 (What Happened Today)
+		div(ng-show='showToday')
 			div(ng-repeat='note in notes')
 				p About {{note.about}}, {{note.keyword}}, {{note.details}}, Written By {{note.creator}}
-		h3.header 生活数字 (Life D)	
+		h3.header(ng-click='showAddNote=false;showToday=false;showLifeD=true') 生活数字 (Life D)	
+		div(ng-show='showLifeD') 统计
 
-		a.btn.btn-warning(href='/logout') Logout
+		
 

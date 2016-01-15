@@ -42,7 +42,7 @@ router.get('/notes',function(req,res){
     res.redirect('/');
   };
 
-  res.render('notes', { title: 'Notes'});
+  res.render('notes', { title: 'Notes', loginUser:loginUser});
 });
 
 

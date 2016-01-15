@@ -38,6 +38,7 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
     }).then(function successCallback(response) {
         $('#keyword').val('');
         $('#detail').val('');
+        $('#value').val('');
         $scope.getNotes();
         alert('Note added');
       }, function errorCallback(response) {
@@ -48,7 +49,10 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
   //Init
   $scope.getNotes();
 
-  $scope.showAddNote=true;
+  $scope.showAddNote=false;
+  $scope.showToday=true;
+  $scope.showLifeD=false;
+  
 
   $scope.members=[
     {
