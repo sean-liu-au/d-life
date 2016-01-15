@@ -10,7 +10,36 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
       url: '/ajax/getNotes'
     }).then(function successCallback(response) {
         $scope.notes=response.data;
-        console.log('~~~~',$scope.notes);
+      }, function errorCallback(response) {
+        alert('Ajax Error');
+      });
+  }
+
+  $scope.addNote =function(){
+    var valid = $('#keyword').val() && $('#detail').val();
+    if(!valid){
+      alert("Empty note not allowed.");
+      return false;
+    }
+
+    var note ={
+      about:$('#about').val(),
+      keyword:$('#keyword').val(),
+      detail:$('#detail').val(),
+      value:$('#value').val()
+    };
+
+    console.log(note);
+
+    $http({
+      method: 'POST',
+      url: '/ajax/addNote',
+      data:note
+    }).then(function successCallback(response) {
+        $('#keyword').val('');
+        $('#detail').val('');
+        $scope.getNotes();
+        alert('Note added');
       }, function errorCallback(response) {
         alert('Ajax Error');
       });

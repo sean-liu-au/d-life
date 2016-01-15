@@ -6,11 +6,11 @@ block content
 		h3.header(ng-click='showAddNote=true') 写一条儿 (Add A Note) 
 		form.form-horizontal(method="post", id="addNoteForm", action='/addNote' ng-show='showAddNote')
 			label About Who (谁)
-			select(name='aboutWho')
+			select(name='about' id='about')
 				option(ng-repeat='x in members' ng-value='x.email') {{x.firstname+' '+x.lastname}}
 			| <br><br>	
 			label KeyWord (主题)
-			input.span3(id="keyword", name="keyword")
+			input.span3(id="keyword", name="keyword" required)
 			| <br><br>
 			label Details (什么)
 			input.span3(id="detail", name="detail")
@@ -18,7 +18,7 @@ block content
 			label Value (量度)
 			input.span3(id="value", name="value")
 			| <br><br>
-			input.btn(type="submit", value="Save")
+			input.btn(type="button", value="Save" ng-click='addNote()')
 		h3.header(ng-click='showAddNote=false') 今儿有啥 (What Happened Today)
 		div(ng-show='!showAddNote')
 			div(ng-repeat='note in notes')

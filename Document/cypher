@@ -16,7 +16,7 @@ create (u)-[r:userBelongToFamily]-(f)
 --Create family 
 
 
--- Create note
+-- Add note
 match (creator:user {email:'botfc.au@gmail.com'})
 match (tagged:user {email:'guomengjie@gmail.com'})
 
@@ -37,12 +37,12 @@ create (note)-[createdOn:createdOn {time:timestamp()}]->(date)
 -- List Note from date
 -- createdBy, keyword, details
 match  (login:user {email:'guomengjie@gmail.com'})
-match  (login)-[r1:userBelongToFamily]->(f:family)
-match  (members:user)-[r2:userBelongToFamily]->(f)
+match  (login)-[f1:userBelongToFamily]->(f:family)
+match  (members:user)-[f2:userBelongToFamily]->(f)
 match  (date:date {date:'2016-01-13'}) 
 match  (note:note)-[createdOn:createdOn]->(date) 
-match  (note)-[about:aboutUser]->(user) 
+match  (note)-[about:aboutUser]->(members) 
 match  (note)-[link:linkTo]->(keyword:keyword) 
 match  (note)-[create:createdBy]->(creator:user) 
-return {about:user.firstname,creator:creator.firstname, keyword:keyword.keyword, details:note.details}  as note 
-order by user.firstname, keyword.keyword, creator.firstname, note.details 
+return {about:members.firstname,creator:creator.firstname, keyword:keyword.keyword, details:note.details}  as note 
+order by members.firstname, keyword.keyword, creator.firstname, note.details 
