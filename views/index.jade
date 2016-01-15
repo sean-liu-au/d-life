@@ -1,13 +1,14 @@
 extends layout
 
 block content
-  div.container
-  img(src='images/home.jpg')
-  div.top
-    form.form-horizontal(method="post", id="loginForm", action='/auth')
-      label Username
-      input.span3(id="username", type="text", name="username", placeholder="Enter your username")
-      label Password
-      input.span3(id="password", type="password", name="password")
-      input.btn(type="submit", value="Log In")
-  
+	div.containe.text-center
+		img(src='images/home.jpg')  	
+		form.form-horizontal(method="post", id="loginForm", action='/auth')
+			div.form-control
+				label Username
+				input(id="username", type="text", name="username", placeholder="Enter your username")
+			div.form-control
+				label Password
+				input(id="password", type="password", name="password")
+			div.form-control
+				input.btn(type="submit", value="Log In")

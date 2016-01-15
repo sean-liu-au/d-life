@@ -25,3 +25,13 @@ input{
 	display: inline-block;
 	margin-right: 10px;
 }
+
+.form-control label, input{
+	display: inline-block;
+	margin: 10px;
+	width: 100px;	
+}
+
+.form-control input{
+	width: 200px;	
+}

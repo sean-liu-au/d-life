@@ -25,7 +25,7 @@ block content
 		h3.header(ng-click='showAddNote=false;showToday=true;showLifeD=false') 今儿有啥 (What Happened Today)
 		div(ng-show='showToday')
 			div(ng-repeat='note in notes')
-				p About {{note.about}}, {{note.keyword}}, {{note.details}}, Written By {{note.creator}}
+				p {{note.about}}, {{note.keyword}}, {{note.details}}, Written By {{note.creator}}
 		h3.header(ng-click='showAddNote=false;showToday=false;showLifeD=true') 生活数字 (Life D)	
 		div(ng-show='showLifeD') 统计
 
