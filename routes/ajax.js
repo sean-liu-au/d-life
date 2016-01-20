@@ -9,7 +9,7 @@ router.get('/', function(req, res, next) {
   res.send('respond with a ajax resource');
 });
 
-router.get('/getNotes', function(req, res, next) {
+router.get('/getNotesFromToday', function(req, res, next) {
 	var loginUser=req.cookies.loginUser;
 	var today= moment().format('L');
 
@@ -57,6 +57,31 @@ router.post('/AddNote', function(req, res, next) {
 	    console.log(err);
 	  }
 	  res.json(true);
+	});	
+});
+
+
+router.get('/searchNotes', function(req, res, next) {
+	var loginUser=req.cookies.loginUser;
+	var para= req.body;
+
+	db.cypherQuery(
+	"match  (login:user {email:'"+loginUser+"'}) "
+	+"match  (login)-[f1:userBelongToFamily]->(f:family) "
+	+"match  (members:user)-[f2:userBelongToFamily]->(f) "
+	+"match  (date:date {date:'"+today+"'}) "
+	+"match  (note:note)-[createdOn:createdOn]->(date) "
+	+"match  (note)-[about:aboutUser]->(members) "
+	+"match  (note)-[link:linkTo]->(keyword:keyword) "
+	+"match  (note)-[create:createdBy]->(creator:user) "
+	+"return {about:members.firstname,creator:creator.firstname, keyword:keyword.keyword, details:note.details}  as note "
+	+"order by members.firstname, keyword.keyword, creator.firstname, note.details ",
+	{},
+	function (err, result) {
+	  if (err) {
+	    return console.log(err);
+	  }
+	  res.json(result.data);
 	});	
 });
 

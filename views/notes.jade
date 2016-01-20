@@ -47,6 +47,25 @@ block content
 					span.input-group-btn
 						button.btn.btn-default(ng-click="open2()")
 							i.glyphicon.glyphicon-calendar
+			label About Who (谁)
+			| <br>	
+			select(ng-model='about_search' id='about_search')
+				option(ng-repeat='x in members' ng-value='x.email') {{x.firstname+' '+x.lastname}}
+			| <br><br>	
+			label KeyWord (主题)
+			| <br>
+			input.span3(id="keyword", ng-model="keyword_search" required)
+			| <br><br>
+			label Include (包含)
+			| <br>
+			input.span3(id="detail", ng-model="detail_search")
+			| <br><br>
+			input.btn(type="button", value="Search" ng-click='searchNotes()')
+
+			div(ng-repeat='result in results')
+				p {{result.about}}, {{result.keyword}}, {{result.details}}, Written By {{result.creator}}
+
+
 
 
 		

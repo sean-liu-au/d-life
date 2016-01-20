@@ -3,11 +3,12 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
 
   //Variables and functions
   $scope.notes=[];
+  $scope.results=[];
 
   $scope.getNotes= function(){
     $http({
       method: 'GET',
-      url: '/ajax/getNotes'
+      url: '/ajax/getNotesFromToday'
     }).then(function successCallback(response) {
         $scope.notes=response.data;
       }, function errorCallback(response) {
@@ -16,7 +17,6 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
   }
 
   $scope.addNote =function(){
-
     var valid = $scope.keyword && $scope.detail;
     if(!valid){
       alert("Empty note not allowed.");
@@ -45,6 +45,35 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
         alert('Ajax Error');
       });
   }
+
+
+  $scope.searchNotes =function(){
+    var valid = $scope.keyword_search && $scope.from && $scope.to && $scope.about_search;
+    if(!valid){
+      alert("Must have from date, to date, about and keyword");
+      return false;
+    }
+
+    var searchPara ={
+      from:$scope.from,
+      to:$scope.to,
+      about:$scope.about_search,
+      keyword:$scope.keyword_search,
+      detail:$scope.detail_search,
+    };
+
+ 
+    $http({
+      method: 'POST',
+      url: '/ajax/searchNotes',
+      data:searchPara
+    }).then(function successCallback(response) {
+        $scope.results=[];
+      }, function errorCallback(response) {
+        alert('Ajax Error');
+      });
+  }
+
 
   //Init
   $scope.getNotes();
