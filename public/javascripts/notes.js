@@ -16,17 +16,18 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
   }
 
   $scope.addNote =function(){
-    var valid = $('#keyword').val() && $('#detail').val();
+
+    var valid = $scope.keyword && $scope.detail;
     if(!valid){
       alert("Empty note not allowed.");
       return false;
     }
 
     var note ={
-      about:$('#about').val(),
-      keyword:$('#keyword').val(),
-      detail:$('#detail').val(),
-      value:$('#value').val()
+      about:$scope.about,
+      keyword:$scope.keyword,
+      detail:$scope.detail,
+      value:$scope.value
     };
 
  
@@ -35,9 +36,9 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
       url: '/ajax/addNote',
       data:note
     }).then(function successCallback(response) {
-        $('#keyword').val('');
-        $('#detail').val('');
-        $('#value').val('');
+        $scope.keyword='';
+        $scope.detail='';
+        $scope.value='';
         $scope.getNotes();
         alert('Note added');
       }, function errorCallback(response) {
@@ -52,6 +53,18 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
   $scope.showToday=true;
   $scope.showLifeD=false;
   
+  //Calenda
+  $scope.popup1 = {
+    open: false
+  };
+
+  $scope.popup2 = {
+    open: false
+  };
+
+  $scope.format = 'dd-MMMM-yyyy';
+  $scope.altInputFormats = ['M!/d!/yyyy'];
+
 
   $scope.members=[
     {
@@ -68,8 +81,13 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
 
 
   //Script
-  $scope.open=function(){
-    $scope.popup.opened = true;
+  $scope.open1=function(){
+    $scope.popup1.open = true;
   }
+
+  $scope.open2=function(){
+    $scope.popup2.open = true;
+  }
+
 
 });

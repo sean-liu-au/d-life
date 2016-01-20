@@ -40,9 +40,10 @@ input{
 .login-form label{
 	text-align: left;
 	font-weight: bold;
+	border: none;
 }
 
-.login-form label, input{
+.login-form input{
 	width: 100%;
 	box-sizing : border-box;	
 }

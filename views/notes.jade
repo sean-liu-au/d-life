@@ -9,17 +9,21 @@ block content
 		h3.header(ng-click='showAddNote=true;showToday=false;showLifeD=false') 写一条儿 (Add A Note) 
 		form.form-horizontal(method="post", id="addNoteForm", action='/addNote' ng-show='showAddNote')
 			label About Who (谁)
-			select(name='about' id='about')
+			| <br>	
+			select(ng-model='about' id='about')
 				option(ng-repeat='x in members' ng-value='x.email') {{x.firstname+' '+x.lastname}}
 			| <br><br>	
 			label KeyWord (主题)
-			input.span3(id="keyword", name="keyword" required)
+			| <br>
+			input.span3(id="keyword", ng-model="keyword" required)
 			| <br><br>
 			label Details (什么)
-			input.span3(id="detail", name="detail")
+			| <br>
+			input.span3(id="detail", ng-model="detail")
 			| <br><br>
 			label Value (量度)
-			input.span3(id="value", name="value")
+			| <br>
+			input.span3(id="value", ng-model="value")
 			| <br><br>
 			input.btn(type="button", value="Save" ng-click='addNote()')
 		h3.header(ng-click='showAddNote=false;showToday=true;showLifeD=false') 今儿有啥 (What Happened Today)
@@ -30,13 +34,19 @@ block content
 		div(ng-show='showLifeD')
 			label From
 			div
-				p
-					input(type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" alt-input-formats="altInputFormats")
+				p.input-group
+					input(type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="from" is-open="popup1.open" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" alt-input-formats="altInputFormats")
 					span.input-group-btn
-						button.btn.btn-default(ng-click="open()")
-							i.glyphicon glyphicon-calendar
+						button.btn.btn-default(ng-click="open1()")
+							i.glyphicon.glyphicon-calendar
 
 			label To
+			div
+				p.input-group
+					input(type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="to" is-open="popup2.open" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" alt-input-formats="altInputFormats")
+					span.input-group-btn
+						button.btn.btn-default(ng-click="open2()")
+							i.glyphicon.glyphicon-calendar
 
 
 		
