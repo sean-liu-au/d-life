@@ -27,7 +27,17 @@ block content
 			div(ng-repeat='note in notes')
 				p {{note.about}}, {{note.keyword}}, {{note.details}}, Written By {{note.creator}}
 		h3.header(ng-click='showAddNote=false;showToday=false;showLifeD=true') 生活数字 (Life D)	
-		div(ng-show='showLifeD') 统计
+		div(ng-show='showLifeD')
+			label From
+			div
+				p
+					input(type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="dt" is-open="popup.opened" min-date="minDate" max-date="maxDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" alt-input-formats="altInputFormats")
+					span.input-group-btn
+						button.btn.btn-default(ng-click="open()")
+							i.glyphicon glyphicon-calendar
+
+			label To
+
 
 		
 

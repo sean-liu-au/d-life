@@ -2,8 +2,7 @@ module.exports =
 {
   runCypherQuery : function(query, params, callback) {
     var request = require("request");
-    var host = 'localhost',
-      port = 7474;
+    var host = 'localhost', port = 443;
     var httpUrlForTransaction = 'http://' + host + ':' + port + '/db/data/transaction/commit';
     request.post({
         uri: httpUrlForTransaction,

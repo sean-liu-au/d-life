@@ -3,11 +3,18 @@ html
   head
     link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
     link(rel='stylesheet', href='/bootstrap/css/bootstrap-responsive.min.css')
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js')
     script(src='/bootstrap/js/bootstrap.min.js')  
     script(src='http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js')
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js"></script>
+    script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-cookies.js")
+
+    script(src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.js")
+    script(src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.1.0.js")
+    
+    link(href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet")
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    
     title= title
   body
     block content

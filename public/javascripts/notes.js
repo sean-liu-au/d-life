@@ -1,4 +1,4 @@
-var appNptes = angular.module('appNotes', []);
+var appNptes = angular.module('appNotes', ['ui.bootstrap']);
 appNptes.controller('notesCtrl', function ($scope, $http, $location) {
 
   //Variables and functions
@@ -29,8 +29,7 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
       value:$('#value').val()
     };
 
-    console.log(note);
-
+ 
     $http({
       method: 'POST',
       url: '/ajax/addNote',
@@ -66,5 +65,11 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
     "firstname":"Sean",
     }
   ];
+
+
+  //Script
+  $scope.open=function(){
+    $scope.popup.opened = true;
+  }
 
 });

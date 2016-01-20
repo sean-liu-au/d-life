@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 var neo4j = require('node-neo4j');
-db = new neo4j('http://localhost:7474');
+var db = new neo4j('http://localhost:443','Authorization:Basic bmVvNGo6THlic2VhbjIwMTY=');
 var moment = require("moment");
 
 router.get('/', function(req, res, next) {

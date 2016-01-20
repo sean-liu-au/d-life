@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 var neo4j = require('node-neo4j');
-db = new neo4j('http://localhost:7474');
+var db = new neo4j('localhost:443','Basic bmVvNGo6THlic2VhbjIwMTY=');
+console.log('!!!',db);
 
 
 router.get('/', function(req, res, next) {
@@ -11,6 +12,10 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/auth', function(req, res, next) {
+
+console.log('~~~',db);
+
+
   var auth=req.body;
   db.cypherQuery(
     "MATCH (n:user{email:'"+auth.username+"', password:'"+auth.password+"'}) RETURN n",

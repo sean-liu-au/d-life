@@ -26,12 +26,34 @@ input{
 	margin-right: 10px;
 }
 
-.form-control label, input{
-	display: inline-block;
-	margin: 10px;
-	width: 100px;	
+
+.wrapper{
+	display:inline-block;
 }
 
-.form-control input{
-	width: 200px;	
+.login-form{
+	width: 100%;
+	margin:0 auto;
+	margin-top: 5px;
+}
+
+.login-form label{
+	text-align: left;
+	font-weight: bold;
+}
+
+.login-form label, input{
+	width: 100%;
+	box-sizing : border-box;	
+}
+
+.login-form input{
+	width: 100%;
+	box-sizing : border-box;	
+	height: 30px;
+}
+
+
+#btnLogin{
+	width: 100%;
 }
