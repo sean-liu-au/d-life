@@ -38,7 +38,6 @@ router.post('/AddNote', function(req, res, next) {
 	var loginUser=req.cookies.loginUser;
 	var note=req.body;
 	var today= moment().format('L');
-	console.log(today);
 
 	db.cypherQuery(
 	"match (creator:user {email:'"+loginUser+"'}) "
@@ -61,21 +60,34 @@ router.post('/AddNote', function(req, res, next) {
 });
 
 
-router.get('/searchNotes', function(req, res, next) {
+router.post('/searchNotes', function(req, res, next) {
 	var loginUser=req.cookies.loginUser;
 	var para= req.body;
+	
+	para.from=moment(para.from).format('L');
+	para.to=moment(para.to).format('L');
+
+	var query=
+	"match (note:note)-[createdOn:createdOn]->(date:date) where date.date >='"+para.from+"' AND date.date<='"+para.to+"' "
+	+"match (note)-[aboutUser:aboutUser]->(aboutwho:user) where aboutwho.email='"+para.about+"' "
+	+"match (note)-[linkTo:linkTo]->(keyword:keyword) ";
+
+	if(para.keyword){
+		query+="where keyword.keyword CONTAINS '"+para.keyword+"' ";
+	}
+
+
+	if(para.detail){
+		query+="match (note) where note.details CONTAINS '"+para.detail+"' ";	
+	}
+
+	query=query
+	+"match (note)-[createdBy:createdBy]-(creator:user) "
+	+"return {about:aboutwho.firstname,creator:creator.firstname, keyword:keyword.keyword, details:note.details,createdOn:date.date}  as result "
+	"order by aboutwho.firstname, keyword.keyword, creator.firstname, note.details ";
 
 	db.cypherQuery(
-	"match  (login:user {email:'"+loginUser+"'}) "
-	+"match  (login)-[f1:userBelongToFamily]->(f:family) "
-	+"match  (members:user)-[f2:userBelongToFamily]->(f) "
-	+"match  (date:date {date:'"+today+"'}) "
-	+"match  (note:note)-[createdOn:createdOn]->(date) "
-	+"match  (note)-[about:aboutUser]->(members) "
-	+"match  (note)-[link:linkTo]->(keyword:keyword) "
-	+"match  (note)-[create:createdBy]->(creator:user) "
-	+"return {about:members.firstname,creator:creator.firstname, keyword:keyword.keyword, details:note.details}  as note "
-	+"order by members.firstname, keyword.keyword, creator.firstname, note.details ",
+	query,
 	{},
 	function (err, result) {
 	  if (err) {

@@ -3,7 +3,6 @@ var router = express.Router();
 var path = require('path');
 var neo4j = require('node-neo4j');
 var db = new neo4j('localhost:443','Basic bmVvNGo6THlic2VhbjIwMTY=');
-console.log('!!!',db);
 
 
 router.get('/', function(req, res, next) {

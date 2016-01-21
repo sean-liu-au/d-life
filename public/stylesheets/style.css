@@ -1,12 +1,16 @@
 body {
-  padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  padding-top: 50px;
 }
 
 a {
   color: #00B7FF;
 }
 
+.container{
+	padding-left: 0;
+	padding-right: 0;
+}
 
 .header{
 	background-color:#87CEFA;
@@ -33,28 +37,18 @@ input{
 
 .login-form{
 	width: 100%;
-	margin:0 auto;
 	margin-top: 5px;
 }
 
-.login-form label{
-	text-align: left;
+
+.login-form-label{
+	text-align: left !important;
 	font-weight: bold;
 	border: none;
 }
 
-.login-form input{
-	width: 100%;
-	box-sizing : border-box;	
-}
-
-.login-form input{
-	width: 100%;
-	box-sizing : border-box;	
-	height: 30px;
-}
-
-
 #btnLogin{
 	width: 100%;
+	box-sizing: border-box;
+	height: 30px;
 }

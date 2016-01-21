@@ -48,9 +48,9 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
 
 
   $scope.searchNotes =function(){
-    var valid = $scope.keyword_search && $scope.from && $scope.to && $scope.about_search;
+    var valid = $scope.from && $scope.to && $scope.about_search;
     if(!valid){
-      alert("Must have from date, to date, about and keyword");
+      alert("Must have from date, to date, about");
       return false;
     }
 
@@ -68,7 +68,7 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
       url: '/ajax/searchNotes',
       data:searchPara
     }).then(function successCallback(response) {
-        $scope.results=[];
+        $scope.results=response.data;
       }, function errorCallback(response) {
         alert('Ajax Error');
       });

@@ -10,23 +10,23 @@ block content
 		form.form-horizontal(method="post", id="addNoteForm", action='/addNote' ng-show='showAddNote')
 			label About Who (谁)
 			| <br>	
-			select(ng-model='about' id='about')
+			select.form-control(ng-model='about' id='about')
 				option(ng-repeat='x in members' ng-value='x.email') {{x.firstname+' '+x.lastname}}
 			| <br><br>	
 			label KeyWord (主题)
 			| <br>
-			input.span3(id="keyword", ng-model="keyword" required)
+			input.form-control(id="keyword", ng-model="keyword" required)
 			| <br><br>
 			label Details (什么)
 			| <br>
-			input.span3(id="detail", ng-model="detail")
+			input.form-control(id="detail", ng-model="detail")
 			| <br><br>
 			label Value (量度)
 			| <br>
-			input.span3(id="value", ng-model="value")
+			input.form-control(id="value", ng-model="value")
 			| <br><br>
 			input.btn(type="button", value="Save" ng-click='addNote()')
-		h3.header(ng-click='showAddNote=false;showToday=true;showLifeD=false') 今儿有啥 (What Happened Today)
+		h3.header(ng-click='showAddNote=false;showToday=true;showLifeD=false') 今儿有啥 (About Today)
 		div(ng-show='showToday')
 			div(ng-repeat='note in notes')
 				p {{note.about}}, {{note.keyword}}, {{note.details}}, Written By {{note.creator}}
@@ -49,19 +49,19 @@ block content
 							i.glyphicon.glyphicon-calendar
 			label About Who (谁)
 			| <br>	
-			select(ng-model='about_search' id='about_search')
+			select.form-control(ng-model='about_search' id='about_search')
 				option(ng-repeat='x in members' ng-value='x.email') {{x.firstname+' '+x.lastname}}
 			| <br><br>	
 			label KeyWord (主题)
 			| <br>
-			input.span3(id="keyword", ng-model="keyword_search" required)
+			input.form-control(id="keyword", ng-model="keyword_search" required)
 			| <br><br>
 			label Include (包含)
 			| <br>
-			input.span3(id="detail", ng-model="detail_search")
+			input.form-control(id="detail", ng-model="detail_search")
 			| <br><br>
 			input.btn(type="button", value="Search" ng-click='searchNotes()')
-
+			| <br><br>
 			div(ng-repeat='result in results')
 				p {{result.about}}, {{result.keyword}}, {{result.details}}, Written By {{result.creator}}
 
