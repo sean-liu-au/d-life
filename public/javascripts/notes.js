@@ -5,7 +5,10 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
   $scope.notes=[];
   $scope.results=[];
 
-  $scope.getNotes= function(){
+  $scope.keywords=[];
+  $scope.keywords_search=[];
+
+  $scope.getNotesByDate= function(){
     $http({
       method: 'GET',
       url: '/ajax/getNotesFromToday'
@@ -74,9 +77,29 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
       });
   }
 
+  $scope.searchKeyword =function(text){
+    $http({
+      method: 'POST',
+      url: '/ajax/searchKeyword',
+      data:{'keyword':text}
+    }).then(function successCallback(response) {
+        $scope.keywords=response.data;
+      }, function errorCallback(response) {
+        alert('Ajax Error');
+      });
+  }
+
+  $scope.fetchKeyword= function(x){
+    $scope.keyword=x;
+    $scope.keywords=[];
+  }
+
+  $scope.$watch('selectedDate', $scope.getNotesByDate());
+
+
 
   //Init
-  $scope.getNotes();
+  $scope.getNotesByDate();
 
   $scope.showAddNote=false;
   $scope.showToday=true;

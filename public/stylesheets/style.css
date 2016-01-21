@@ -52,3 +52,12 @@ input{
 	box-sizing: border-box;
 	height: 30px;
 }
+
+
+.list-item{
+	background-color: #f6f6a9
+}
+
+.list-item:hover{
+	cursor: pointer;
+}

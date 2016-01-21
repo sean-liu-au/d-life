@@ -6,15 +6,11 @@ var db = new neo4j('localhost:443','Basic bmVvNGo6THlic2VhbjIwMTY=');
 
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Know Your Life' });
+  res.render('index', { title: 'D-Life' });
 });
 
 
 router.post('/auth', function(req, res, next) {
-
-console.log('~~~',db);
-
-
   var auth=req.body;
   db.cypherQuery(
     "MATCH (n:user{email:'"+auth.username+"', password:'"+auth.password+"'}) RETURN n",
@@ -25,7 +21,7 @@ console.log('~~~',db);
       }
 
       if (result.data.length!=0) { 
-        res.cookie('loginUser', auth.username,{ maxAge: 900000, httpOnly: true });       
+        res.cookie('loginUser', auth.username,{ maxAge: 9000000, httpOnly: true });       
         res.redirect('/notes');
       }else{
         res.redirect('/');
@@ -46,30 +42,8 @@ router.get('/notes',function(req,res){
     res.redirect('/');
   };
 
-  res.render('notes', { title: 'Notes', loginUser:loginUser});
+  res.render('notes', { title: 'Notes - Know Your Life', loginUser:loginUser});
 });
-
-
-router.post('/addNote',function(req,res){
-  var loginUser = req.cookies.loginUser;
-  if (loginUser=='' || loginUser==undefined) {
-    res.redirect('/');
-  };
-
-  var note=req.body;
-  var createdBy=req.cookies.loginUser;
-
-  db.cypherQuery(
-    "MATCH (n:user{email:'"+auth.username+"', password:'"+auth.password+"'}) RETURN n",
-    {},
-    function (err, result) {
-      if (err) {
-        return console.log(err);
-      }
-      res.redirect('/notes');
-  });  
-});
-
 
 
 router.get('/userlist',function(req,res){

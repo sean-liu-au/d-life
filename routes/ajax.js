@@ -34,6 +34,22 @@ router.get('/getNotesFromToday', function(req, res, next) {
 	});	
 });
 
+
+router.post('/searchKeyword', function(req, res, next) {
+	var query="match (keyword:keyword) where keyword.keyword contains '"+req.body.keyword+"' return keyword.keyword";
+
+	db.cypherQuery(
+	query,
+	{},
+	function (err, result) {
+	  if (err) {
+	    return console.log(err);
+	  }
+	  res.json(result.data);
+	});	
+});
+
+
 router.post('/AddNote', function(req, res, next) {
 	var loginUser=req.cookies.loginUser;
 	var note=req.body;
