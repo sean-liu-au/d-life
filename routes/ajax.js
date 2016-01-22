@@ -110,11 +110,23 @@ router.post('/searchNotes', function(req, res, next) {
 	  if (err) {
 	    return console.log(err);
 	  }
-	  res.json(result.data);
+	  var notes =result.data;
+	  var summary={};
+	  notes.forEach(function(note){
+	  	if(summary[note.keyword]){
+	  		summary[note.keyword]+=1;	
+	  	}else{
+  			summary[note.keyword]=1;	
+	  	}	  	
+	  });
+
+	  var summaryArray=[];
+	  for(var attr in summary){
+	  	summaryArray.push({keyword:attr, count:summary[attr]});
+	  }
+	  res.json({summary:summaryArray, notes:notes});
 	});	
 });
-
-
 
 
 module.exports = router;

@@ -70,10 +70,13 @@ block content
 			| <br><br>
 			input.btn(type="button", value="Search" ng-click='searchNotes()')
 			| <br><br>
+			div(ng-show='results.length') From {{from | date:"MM/dd/yyyy"}} To {{to | date:"MM/dd/yyyy"}}, in {{(to-from)/(1000*60*60*24)}} days, {{about_search}}
+			| <br><br>
+			div(ng-repeat='e in summary')
+				p {{e.keyword}}, {{e.count}}
+			| <br><br>
 			div(ng-repeat='result in results')
-				p {{result.about}}, {{result.keyword}}, {{result.details}}, Written By {{result.creator}}
-			div(ng-show='!result.length') No records.
-
+				p {{result.about}}, {{result.keyword}}, {{result.details}}, Written By {{result.creator}}, On {{result.createdOn}}
 
 
 

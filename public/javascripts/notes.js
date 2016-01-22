@@ -4,6 +4,7 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
   //Variables and functions
   $scope.notes=[];
   $scope.results=[];
+  $scope.summary=[];
 
   $scope.keywords=[];
   $scope.keywords_search=[];
@@ -74,7 +75,8 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
       url: '/ajax/searchNotes',
       data:searchPara
     }).then(function successCallback(response) {
-        $scope.results=response.data;
+        $scope.summary=response.data.summary;
+        $scope.results=response.data.notes;
       }, function errorCallback(response) {
         alert('Ajax Error');
       });
@@ -112,8 +114,8 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
 
   //Init
   $scope.showAddNote=false;
-  $scope.showToday=true;
-  $scope.showLifeD=false;
+  $scope.showNoteCalendar=false;
+  $scope.showLifeD=true;
   
   //Calenda
   $scope.popup1 = {
