@@ -9,16 +9,17 @@ router.get('/', function(req, res, next) {
   res.send('respond with a ajax resource');
 });
 
-router.get('/getNotesFromToday', function(req, res, next) {
+router.post('/getNotesByDate', function(req, res, next) {
 	var loginUser=req.cookies.loginUser;
-	var today= moment().format('L');
+	var selectedDate=req.body.selectedDate;
+	var queryDate= moment(selectedDate).format('L');
 
 
 	db.cypherQuery(
 	"match  (login:user {email:'"+loginUser+"'}) "
 	+"match  (login)-[f1:userBelongToFamily]->(f:family) "
 	+"match  (members:user)-[f2:userBelongToFamily]->(f) "
-	+"match  (date:date {date:'"+today+"'}) "
+	+"match  (date:date {date:'"+queryDate+"'}) "
 	+"match  (note:note)-[createdOn:createdOn]->(date) "
 	+"match  (note)-[about:aboutUser]->(members) "
 	+"match  (note)-[link:linkTo]->(keyword:keyword) "

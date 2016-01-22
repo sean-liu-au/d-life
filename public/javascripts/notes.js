@@ -10,14 +10,17 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
 
   $scope.getNotesByDate= function(){
     $http({
-      method: 'GET',
-      url: '/ajax/getNotesFromToday'
+      method: 'POST',
+      url: '/ajax/getNotesByDate',
+      data:{selectedDate:$scope.selectedDate},
     }).then(function successCallback(response) {
         $scope.notes=response.data;
       }, function errorCallback(response) {
         alert('Ajax Error');
       });
   }
+  $scope.$watch('selectedDate', $scope.getNotesByDate);
+
 
   $scope.addNote =function(){
     var valid = $scope.keyword && $scope.detail;
@@ -42,7 +45,7 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
         $scope.keyword='';
         $scope.detail='';
         $scope.value='';
-        $scope.getNotes();
+        $scope.getNotesByDate();
         alert('Note added');
       }, function errorCallback(response) {
         alert('Ajax Error');
@@ -77,30 +80,37 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
       });
   }
 
-  $scope.searchKeyword =function(text){
+  $scope.searchKeyword =function(text, from){
     $http({
       method: 'POST',
       url: '/ajax/searchKeyword',
       data:{'keyword':text}
     }).then(function successCallback(response) {
-        $scope.keywords=response.data;
+        if(from=='keyword'){
+          $scope.keywords=response.data;
+        }else{
+          $scope.keywords_search=response.data;
+        }
+        
       }, function errorCallback(response) {
         alert('Ajax Error');
       });
   }
 
-  $scope.fetchKeyword= function(x){
-    $scope.keyword=x;
-    $scope.keywords=[];
+  $scope.fetchKeyword= function(x, from){
+    if(from=='keyword'){
+      $scope.keyword=x;
+      $scope.keywords=[];
+    }else{
+      $scope.keyword_search=x;
+      $scope.keywords_search=[];
+    }
   }
 
-  $scope.$watch('selectedDate', $scope.getNotesByDate());
 
 
 
   //Init
-  $scope.getNotesByDate();
-
   $scope.showAddNote=false;
   $scope.showToday=true;
   $scope.showLifeD=false;

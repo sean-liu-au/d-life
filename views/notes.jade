@@ -15,10 +15,10 @@ block content
 			| <br><br>	
 			label KeyWord (主题)
 			| <br>
-			input.form-control(id="keyword", ng-model="keyword" required ng-keyup='searchKeyword(keyword)')
+			input.form-control(id="keyword", ng-model="keyword" required ng-keyup="searchKeyword(keyword,'keyword')")
 			div(ng-show='keywords.length')
 				ui
-					li.list-item(ng-repeat='x in keywords' ng-click='fetchKeyword(x)') {{x}}
+					li.list-item(ng-repeat='x in keywords' ng-click="fetchKeyword(x,'keyword')") {{x}}
 			| <br><br>
 			label Details (什么)
 			| <br>
@@ -29,13 +29,13 @@ block content
 			input.form-control(id="value", ng-model="value")
 			| <br><br>
 			input.btn(type="button", value="Save" ng-click='addNote()')
-		h3.header(ng-click='showAddNote=false;showNoteCalendar=true;showLifeD=false') 生活日历 (Notes Calendar)
+		h3.header(ng-click='showAddNote=false;showNoteCalendar=true;showLifeD=false') 看一看 (Notes Calendar)
 		div(ng-show='showNoteCalendar')
 			div(style="display:inline-block; min-height:290px;")
 				uib-datepicker(ng-model="selectedDate" min-date="minDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)")
 			div(ng-repeat='note in notes')
 				p {{note.about}}, {{note.keyword}}, {{note.details}}, Written By {{note.creator}}
-		h3.header(ng-click='showAddNote=false;showNoteCalendar=false;showLifeD=true') 生活数字 (Life Data)	
+		h3.header(ng-click='showAddNote=false;showNoteCalendar=false;showLifeD=true') 算一算 (Life Data)	
 		div(ng-show='showLifeD')
 			label From
 			div
@@ -59,7 +59,10 @@ block content
 			| <br><br>	
 			label KeyWord (主题)
 			| <br>
-			input.form-control(id="keyword", ng-model="keyword_search" required ng-keyup='searchKeyword(keyword_search)')
+			input.form-control(id="keyword", ng-model="keyword_search" required ng-keyup="searchKeyword(keyword_search, 'keyword_search')")
+			div(ng-show='keywords_search.length')
+				ui
+					li.list-item(ng-repeat='x in keywords_search' ng-click="fetchKeyword(x, 'keyword_search')") {{x}}
 			| <br><br>
 			label Include (包含)
 			| <br>
@@ -69,6 +72,7 @@ block content
 			| <br><br>
 			div(ng-repeat='result in results')
 				p {{result.about}}, {{result.keyword}}, {{result.details}}, Written By {{result.creator}}
+			div(ng-show='!result.length') No records.
 
 
 
