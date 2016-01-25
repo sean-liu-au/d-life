@@ -1,6 +1,7 @@
 extends layout
 
 block content
+	script(type='text/javascript').var members =!{JSON.stringify(members)}
 	script(src='/javascripts/notes.js')
 	div.container(ng-app='appNotes' ng-controller='notesCtrl')
 		h2.block Welcome To Life-D, 

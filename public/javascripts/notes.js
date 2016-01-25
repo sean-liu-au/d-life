@@ -129,19 +129,7 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
   $scope.format = 'dd-MMMM-yyyy';
   $scope.altInputFormats = ['M!/d!/yyyy'];
 
-
-  $scope.members=[
-    {
-    "email":"guomengjie@gmail.com",
-    "lastname":"Guo",
-    "firstname":"Monica",
-    },
-    {
-    "email":"botfc.au@gmail.com",
-    "lastname":"Liu",
-    "firstname":"Sean",
-    }
-  ];
+  $scope.members=members;
 
 
   //Script

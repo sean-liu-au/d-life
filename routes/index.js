@@ -42,7 +42,20 @@ router.get('/notes',function(req,res){
     res.redirect('/');
   };
 
-  res.render('notes', { title: 'Notes - Know Your Life', loginUser:loginUser});
+  db.cypherQuery(
+    "match  (login:user {email:'"+loginUser+"'}) "
+    +"match (login)-[r:userBelongToFamily]->(f) "
+    +"match  (member:user)-[f2:userBelongToFamily]->(f) "
+    +"return {email:member.email,firstname:member.firstname, lastname:member.lastname} as members ",
+    {},
+    function (err, result) {
+      if (err) {
+        return console.log(err);
+      }
+      res.render('notes', { title: 'Notes - Know Your Life', loginUser:loginUser, members:result.data});
+      members=result.data;
+    });
+  
 });
 
 
