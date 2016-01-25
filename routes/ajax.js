@@ -24,13 +24,17 @@ router.post('/getNotesByDate', function(req, res, next) {
 	+"match  (note)-[about:aboutUser]->(members) "
 	+"match  (note)-[link:linkTo]->(keyword:keyword) "
 	+"match  (note)-[create:createdBy]->(creator:user) "
-	+"return {about:members.firstname,creator:creator.firstname, keyword:keyword.keyword, details:note.details}  as note "
-	+"order by members.firstname, keyword.keyword, creator.firstname, note.details ",
+	+"return {about:members.firstname,creator:creator.firstname, keyword:keyword.keyword, details:note.details, time:createdOn.time}  as note "
+	+"order by createdOn.time DESC, members.firstname, keyword.keyword, creator.firstname, note.details ",
 	{},
 	function (err, result) {
 	  if (err) {
 	    return console.log(err);
 	  }
+	  var notes=result.data;
+	  notes.forEach(function(n){
+	  	n.time=moment(n.time).format("HH:mm");
+	  });
 	  res.json(result.data);
 	});	
 });

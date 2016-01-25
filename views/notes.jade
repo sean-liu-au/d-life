@@ -22,7 +22,7 @@ block content
 			| <br><br>
 			label Details (什么)
 			| <br>
-			input.form-control(id="detail", ng-model="detail")
+			textarea.form-control(id="detail", ng-model="detail" onkeyup="while(this.scrollTop>0){this.rows++;}")
 			| <br><br>
 			label Value (量度)
 			| <br>
@@ -34,8 +34,8 @@ block content
 			div(style="display:inline-block; min-height:290px;")
 				uib-datepicker(ng-model="selectedDate" min-date="minDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)")
 			div(ng-repeat='note in notes')
-				p {{note.about}}, {{note.keyword}}, {{note.details}}, Written By {{note.creator}}
-		h3.header(ng-click='showAddNote=false;showNoteCalendar=false;showLifeD=true') 算一算 (Life Data)	
+				p {{note.about}}, {{note.keyword}}, {{note.details}}, Written By {{note.creator}}, at {{note.time}}
+		h3.header(ng-click='showAddNote=false;showNoteCalendar=false;showLifeD=true') 查一查 (Life Data)	
 		div(ng-show='showLifeD')
 			label From
 			div

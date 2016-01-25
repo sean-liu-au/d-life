@@ -114,8 +114,8 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
 
   //Init
   $scope.showAddNote=false;
-  $scope.showNoteCalendar=false;
-  $scope.showLifeD=true;
+  $scope.showNoteCalendar=true;
+  $scope.showLifeD=false;
   
   //Calenda
   $scope.popup1 = {
