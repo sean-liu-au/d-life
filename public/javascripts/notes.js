@@ -160,8 +160,8 @@ $scope.drawBarChart =function () {
     Initiate variables for application
   ******/
   $scope.showAddNote=false;
-  $scope.showNoteCalendar=false;
-  $scope.showLifeD=true;
+  $scope.showNoteCalendar=true;
+  $scope.showLifeD=false;
   
   //Calenda
   $scope.popup1 = {
