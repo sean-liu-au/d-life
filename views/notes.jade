@@ -74,7 +74,7 @@ block content
 			div(ng-show='results.length') From {{from | date:"MM/dd/yyyy"}} To {{to | date:"MM/dd/yyyy"}}, in {{(to-from)/(1000*60*60*24)}} days
 			div.bar-chart(id='chart_div')
 			| <br><br>
-			div(ng-repeat='result in results')
+			div(ng-repeat='result in resultsShow')
 				p {{result.about}}, {{result.keyword}}, {{result.details}}, Written By {{result.creator}}, On {{result.createdOn}}
 
 

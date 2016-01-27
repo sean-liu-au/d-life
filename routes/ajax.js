@@ -59,18 +59,21 @@ router.post('/AddNote', function(req, res, next) {
 	var loginUser=req.cookies.loginUser;
 	var note=req.body;
 	var today= moment().format('L');
+	var query=
+		"match (creator:user {email:'"+loginUser.email+"'}) "
+		+"match (tagged:user {email:'"+note.about+"'}) "
+		+"merge (keyword:keyword {keyword:'"+note.keyword+"'}) "
+		+"merge (tagged)-[feel:feel]->(keyword) "
+		+"merge (date:date {date:'"+today+"'}) "
+		+"create (note:note {details:'"+note.detail+"', value:'"+note.value+"'}) "
+		+"create (note)-[linkTo:linkTo]->(keyword) "
+		+"create (note)-[createdBy:createdBy]->(creator) "
+		+"create (note)-[aboutUser:aboutUser]->(tagged) "
+		+"create (note)-[createdOn:createdOn {time:timestamp()}]->(date) ";
+	console.log('~~~',query);	
 
 	db.cypherQuery(
-	"match (creator:user {email:'"+loginUser+"'}) "
-	+"match (tagged:user {email:'"+note.about+"'}) "
-	+"merge (keyword:keyword {keyword:'"+note.keyword+"'}) "
-	+"merge (tagged)-[feel:feel]->(keyword) "
-	+"merge (date:date {date:'"+today+"'}) "
-	+"create (note:note {details:'"+note.detail+"', value:'"+note.value+"'}) "
-	+"create (note)-[linkTo:linkTo]->(keyword) "
-	+"create (note)-[createdBy:createdBy]->(creator) "
-	+"create (note)-[aboutUser:aboutUser]->(tagged) "
-	+"create (note)-[createdOn:createdOn {time:timestamp()}]->(date) ",
+	query,
 	{},
 	function (err, result) {
 	  if (err) {

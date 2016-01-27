@@ -4,6 +4,7 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
   //Variables and functions
   $scope.notes=[];
   $scope.results=[];
+  $scope.resultsShow=[];
   $scope.summary=[['',''],[1,2]];
 
   $scope.keywords=[];
@@ -77,6 +78,7 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
     }).then(function successCallback(response) {
         $scope.summary=response.data.summary;
         $scope.results=response.data.notes;
+        $scope.resultsShow=response.data.notes;
         drawBarChart();
       }, function errorCallback(response) {
         alert('Ajax Error');
@@ -133,13 +135,23 @@ function drawBarChart() {
           container.style.display = 'none';
         }
       });
-      
+
+
+      google.visualization.events.addListener(chart, 'select', function (e) {        
+        var selected=chart.getSelection()[0];
+        var selectedKeyword=data.getValue(selected.row,selected.column-1);
+
+        $scope.resultsShow=$scope.results.filter(function(val){
+          return val.keyword==selectedKeyword;
+        });
+        console.log('~~~',$scope.resultsShow);
+      });
+
       chart.draw(data, options);
     }
 
-
   /******
-    Initiate application
+    Initiate variables for application
   ******/
   $scope.showAddNote=false;
   $scope.showNoteCalendar=true;
