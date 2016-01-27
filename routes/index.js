@@ -7,7 +7,6 @@ var db = new neo4j('localhost:443','Basic bmVvNGo6THlic2VhbjIwMTY=');
 
 router.get('/', function(req, res, next) {
   var family=req.query.family;
-  console.log('~~~',family);
   if(family){
     db.cypherQuery(
       "match (f:family) where f.id='"+family+"' return f",

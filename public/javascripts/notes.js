@@ -79,7 +79,7 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
         $scope.summary=response.data.summary;
         $scope.results=response.data.notes;
         $scope.resultsShow=response.data.notes;
-        drawBarChart();
+        $scope.drawBarChart();
       }, function errorCallback(response) {
         alert('Ajax Error');
       });
@@ -113,7 +113,7 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
   }
 
 
-function drawBarChart() {
+$scope.drawBarChart =function () {
       var data = google.visualization.arrayToDataTable($scope.summary);
 
       var options = {
@@ -139,12 +139,18 @@ function drawBarChart() {
 
       google.visualization.events.addListener(chart, 'select', function (e) {        
         var selected=chart.getSelection()[0];
-        var selectedKeyword=data.getValue(selected.row,selected.column-1);
 
-        $scope.resultsShow=$scope.results.filter(function(val){
-          return val.keyword==selectedKeyword;
-        });
-        console.log('~~~',$scope.resultsShow);
+        if(selected){
+          var selectedKeyword=data.getValue(selected.row,selected.column-1);
+
+          $scope.resultsShow=$scope.results.filter(function(val){
+            return val.keyword==selectedKeyword;
+          });          
+        }else{
+          $scope.resultsShow=$scope.results;
+        }
+
+        $scope.$apply();
       });
 
       chart.draw(data, options);
@@ -154,8 +160,8 @@ function drawBarChart() {
     Initiate variables for application
   ******/
   $scope.showAddNote=false;
-  $scope.showNoteCalendar=true;
-  $scope.showLifeD=false;
+  $scope.showNoteCalendar=false;
+  $scope.showLifeD=true;
   
   //Calenda
   $scope.popup1 = {
