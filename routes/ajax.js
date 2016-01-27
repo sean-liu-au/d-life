@@ -16,7 +16,7 @@ router.post('/getNotesByDate', function(req, res, next) {
 
 
 	db.cypherQuery(
-	"match  (login:user {email:'"+loginUser+"'}) "
+	"match  (login:user {email:'"+loginUser.email+"'}) "
 	+"match  (login)-[f1:userBelongToFamily]->(f:family) "
 	+"match  (members:user)-[f2:userBelongToFamily]->(f) "
 	+"match  (date:date {date:'"+queryDate+"'}) "
@@ -124,9 +124,9 @@ router.post('/searchNotes', function(req, res, next) {
 	  	}	  	
 	  });
 
-	  var summaryArray=[];
+	  var summaryArray=[['', '']];
 	  for(var attr in summary){
-	  	summaryArray.push({keyword:attr, count:summary[attr]});
+	  	summaryArray.push([attr, summary[attr]]);
 	  }
 	  res.json({summary:summaryArray, notes:notes});
 	});	

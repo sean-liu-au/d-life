@@ -61,3 +61,8 @@ input{
 .list-item:hover{
 	cursor: pointer;
 }
+
+.bar-chart{
+	margin-top: 30px;
+	width: 100%;
+}

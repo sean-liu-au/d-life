@@ -3,7 +3,7 @@ extends layout
 block content	
 	div.containe.text-center
 		div.wrapper
-			img.img-responsive(src='images/home.jpg')  	
+			img.img-responsive(src='images/#{pic}')  	
 			div.login-form
 				form(method="post", id="loginForm", action='/auth')
 						label.form-control.login-form-label Username

@@ -1,12 +1,12 @@
 extends layout
 
 block content
+	script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
 	script(type='text/javascript').var members =!{JSON.stringify(members)}
 	script(src='/javascripts/notes.js')
 	div.container(ng-app='appNotes' ng-controller='notesCtrl')
-		h2.block Welcome To Life-D, 
-			h4.block #{loginUser} 
-		a.btn.btn-warning(href='/logout') Logout
+		h2.block Welcome To D-Life, #{loginUser} 
+			a.btn.btn-warning(href='/logout') Logout
 		h3.header(ng-click='showAddNote=true;showNoteCalendar=false;showLifeD=false') 写一条儿 (Add A Note) 
 		form.form-horizontal(method="post", id="addNoteForm", action='/addNote' ng-show='showAddNote')
 			label About Who (谁)
@@ -36,7 +36,7 @@ block content
 				uib-datepicker(ng-model="selectedDate" min-date="minDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)")
 			div(ng-repeat='note in notes')
 				p {{note.about}}, {{note.keyword}}, {{note.details}}, Written By {{note.creator}}, at {{note.time}}
-		h3.header(ng-click='showAddNote=false;showNoteCalendar=false;showLifeD=true') 查一查 (Life Data)	
+		h3.header(ng-click='showAddNote=false;showNoteCalendar=false;showLifeD=true') 查一查 (Data Of Life)	
 		div(ng-show='showLifeD')
 			label From
 			div
@@ -70,11 +70,9 @@ block content
 			input.form-control(id="detail", ng-model="detail_search")
 			| <br><br>
 			input.btn(type="button", value="Search" ng-click='searchNotes()')
-			| <br><br>
-			div(ng-show='results.length') From {{from | date:"MM/dd/yyyy"}} To {{to | date:"MM/dd/yyyy"}}, in {{(to-from)/(1000*60*60*24)}} days, {{about_search}}
-			| <br><br>
-			div(ng-repeat='e in summary')
-				p {{e.keyword}}, {{e.count}}
+			| <br><br>			
+			div(ng-show='results.length') From {{from | date:"MM/dd/yyyy"}} To {{to | date:"MM/dd/yyyy"}}, in {{(to-from)/(1000*60*60*24)}} days
+			div.bar-chart(id='chart_div')
 			| <br><br>
 			div(ng-repeat='result in results')
 				p {{result.about}}, {{result.keyword}}, {{result.details}}, Written By {{result.creator}}, On {{result.createdOn}}

@@ -6,14 +6,29 @@ var db = new neo4j('localhost:443','Basic bmVvNGo6THlic2VhbjIwMTY=');
 
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'D-Life' });
+  var family=req.query.family;
+  console.log('~~~',family);
+  if(family){
+    db.cypherQuery(
+      "match (f:family) where f.id='"+family+"' return f",
+      {},
+      function (err, result) {
+        if (err) {
+          return console.log(err);
+        }
+        res.render('index', { title: 'Welcome to D-Life', pic: result.data[0].pic});
+      });    
+  }else{
+    res.render('index', { title: 'Welcome to D-Life', pic: 'default.jpg'});
+  }
+
 });
 
 
 router.post('/auth', function(req, res, next) {
   var auth=req.body;
   db.cypherQuery(
-    "MATCH (n:user{email:'"+auth.username+"', password:'"+auth.password+"'}) RETURN n",
+    "MATCH (n:user{email:'"+auth.username+"', password:'"+auth.password+"'}) RETURN {email:n.email, firstname:n.firstname, lastname:n.lastname} as loginUser",
     {},
     function (err, result) {
       if (err) {
@@ -21,7 +36,7 @@ router.post('/auth', function(req, res, next) {
       }
 
       if (result.data.length!=0) { 
-        res.cookie('loginUser', auth.username,{ maxAge: 9000000, httpOnly: true });       
+        res.cookie('loginUser', result.data[0],{ maxAge: 9000000, httpOnly: true });    
         res.redirect('/notes');
       }else{
         res.redirect('/');
@@ -43,7 +58,7 @@ router.get('/notes',function(req,res){
   };
 
   db.cypherQuery(
-    "match  (login:user {email:'"+loginUser+"'}) "
+    "match  (login:user {email:'"+loginUser.email+"'}) "
     +"match (login)-[r:userBelongToFamily]->(f) "
     +"match  (member:user)-[f2:userBelongToFamily]->(f) "
     +"return {email:member.email,firstname:member.firstname, lastname:member.lastname} as members ",
@@ -52,7 +67,7 @@ router.get('/notes',function(req,res){
       if (err) {
         return console.log(err);
       }
-      res.render('notes', { title: 'Notes - Know Your Life', loginUser:loginUser, members:result.data});
+      res.render('notes', { title: 'D-Life, Data of Your Life', loginUser:loginUser.firstname, members:result.data});
       members=result.data;
     });
   

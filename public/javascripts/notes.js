@@ -4,7 +4,7 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
   //Variables and functions
   $scope.notes=[];
   $scope.results=[];
-  $scope.summary=[];
+  $scope.summary=[['',''],[1,2]];
 
   $scope.keywords=[];
   $scope.keywords_search=[];
@@ -20,8 +20,8 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
         alert('Ajax Error');
       });
   }
-  $scope.$watch('selectedDate', $scope.getNotesByDate);
 
+  $scope.$watch('selectedDate', $scope.getNotesByDate);
 
   $scope.addNote =function(){
     var valid = $scope.keyword && $scope.detail;
@@ -77,6 +77,7 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
     }).then(function successCallback(response) {
         $scope.summary=response.data.summary;
         $scope.results=response.data.notes;
+        drawBarChart();
       }, function errorCallback(response) {
         alert('Ajax Error');
       });
@@ -110,9 +111,36 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
   }
 
 
+function drawBarChart() {
+      var data = google.visualization.arrayToDataTable($scope.summary);
+
+      var options = {
+        width:'100%',
+        hAxis: {
+        },
+        vAxis: {
+          textPosition:'none'
+        },
+        legend: {position: 'none'},
+        bars: 'vertical'
+      };
+      var container=document.getElementById('chart_div');
+      container.style.display = 'block';
+      var chart = new google.charts.Bar(container);
+
+      google.visualization.events.addListener(chart, 'ready', function () {
+        if(!$scope.results.length){
+          container.style.display = 'none';
+        }
+      });
+      
+      chart.draw(data, options);
+    }
 
 
-  //Init
+  /******
+    Initiate application
+  ******/
   $scope.showAddNote=false;
   $scope.showNoteCalendar=true;
   $scope.showLifeD=false;
@@ -131,6 +159,8 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location) {
 
   $scope.members=members;
 
+  //Googel chart
+  google.charts.load('current', {packages: ['corechart', 'bar']});
 
   //Script
   $scope.open1=function(){
