@@ -17,7 +17,7 @@ create (u3)-[r:userBelongToFamily]->(f)
 
 
 --Family members
-match  (login:user {email:'guomengjie@gmail.com'})
+match  (login:user {email:'liuyunxia@gmail.com'})
 match (login)-[r:userBelongToFamily]->(f)
 match  (members:user)-[f2:userBelongToFamily]->(f)
 return members
@@ -29,9 +29,9 @@ match (tagged:user {email:'guomengjie@gmail.com'})
 merge (keyword:keyword {keyword:'不关灯'})
 merge (tagged)-[feel:feel]->(keyword)
 
-merge (date:date {date:'2016-01-14'})
+merge (date:date {date:'01/262016'})
 
-create (note:note {details:'厕所灯不关'})
+create (note:note {details:'刚吃完饭就睡觉'})
 
 create (note)-[linkTo:linkTo]->(keyword)
 create (note)-[createdBy:createdBy]->(creator)

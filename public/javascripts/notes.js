@@ -1,5 +1,5 @@
 var appNptes = angular.module('appNotes', ['ui.bootstrap']);
-appNptes.controller('notesCtrl', function ($scope, $http, $location) {
+appNptes.controller('notesCtrl', function ($scope, $http, $location, $timeout, $document) {
 
   //Variables and functions
   $scope.notes=[];
@@ -159,8 +159,8 @@ $scope.drawBarChart =function () {
   /******
     Initiate variables for application
   ******/
-  $scope.showAddNote=false;
-  $scope.showNoteCalendar=true;
+  $scope.showAddNote=true;
+  $scope.showNoteCalendar=false;
   $scope.showLifeD=false;
   
   //Calenda
@@ -189,5 +189,30 @@ $scope.drawBarChart =function () {
     $scope.popup2.open = true;
   }
 
+  $scope.btnFileOnClick=function(){
+    $timeout(function() {
+      document.querySelector('#fileUpload').click();
+    });
+  }
+
+  $scope.images=[];
+
+  $scope.onSelectFiles=function(fileInput){
+
+    for (var i = fileInput.files.length - 1; i >= 0; i--) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        if($scope.images.indexOf(e.target.result)<0){
+          $scope.images.push(e.target.result);
+          $scope.$apply();       
+        }
+      }
+      reader.readAsDataURL(fileInput.files[i]);      
+    };    
+  }
+
+  $scope.deleteImage=function(image){
+    $scope.images.splice($scope.images.indexOf(image),1);
+  }
 
 });

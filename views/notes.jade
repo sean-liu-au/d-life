@@ -29,6 +29,12 @@ block content
 			| <br>
 			input.form-control(id="value", ng-model="value")
 			| <br><br>
+			input.form-control(multiple accept="image/" id='fileUpload' type="file" ng-show="false"  onchange='angular.element(this).scope().onSelectFiles(this)')
+			input.form-control(type='button' ng-click='btnFileOnClick()' value='Add Image')			
+			div.div-preview(ng-repeat='image in images')
+				image(ng-src='{{image}}')
+					a.boxclose(ng-click='deleteImage(image)')
+			| <br><br>
 			input.btn(type="button", value="Save" ng-click='addNote()')
 		h3.header(ng-click='showAddNote=false;showNoteCalendar=true;showLifeD=false') 看一看 (Notes Calendar)
 		div(ng-show='showNoteCalendar')
