@@ -35,7 +35,8 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location, $timeout, $
       about:$scope.about,
       keyword:$scope.keyword,
       detail:$scope.detail,
-      value:$scope.value
+      value:$scope.value,
+      images:$scope.images
     };
 
  
@@ -48,6 +49,7 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location, $timeout, $
         $scope.detail='';
         $scope.value='';
         $scope.getNotesByDate();
+        $scope.images=[];
         alert('Note added');
       }, function errorCallback(response) {
         alert('Ajax Error');

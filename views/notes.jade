@@ -29,7 +29,7 @@ block content
 			| <br>
 			input.form-control(id="value", ng-model="value")
 			| <br><br>
-			input.form-control(multiple accept="image/" id='fileUpload' type="file" ng-show="false"  onchange='angular.element(this).scope().onSelectFiles(this)')
+			input.form-control(multiple accept="image/" id='fileUpload' type="file" ng-show="false"  onchange='angular.element(this).scope().onSelectFiles(this)') 
 			input.form-control(type='button' ng-click='btnFileOnClick()' value='Add Image')			
 			div.div-preview(ng-repeat='image in images')
 				image(ng-src='{{image}}')
@@ -42,6 +42,11 @@ block content
 				uib-datepicker(ng-model="selectedDate" min-date="minDate" show-weeks="true" class="well well-sm" custom-class="getDayClass(date, mode)")
 			div(ng-repeat='note in notes')
 				p {{note.about}}, {{note.keyword}}, {{note.details}}, Written By {{note.creator}}, at {{note.time}}
+				div.div-preview(ng-repeat='pic in note.pics')
+					a(href='{{pic}}' target='_blank')
+						image(ng-src='{{pic}}')
+
+
 		h3.header(ng-click='showAddNote=false;showNoteCalendar=false;showLifeD=true') 查一查 (Data Of Life)	
 		div(ng-show='showLifeD')
 			label From

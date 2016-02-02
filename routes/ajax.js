@@ -4,6 +4,8 @@ var path = require('path');
 var neo4j = require('node-neo4j');
 var db = new neo4j('http://localhost:443','Authorization:Basic bmVvNGo6THlic2VhbjIwMTY=');
 var moment = require("moment");
+var image=require('../util/image.js');
+
 
 router.get('/', function(req, res, next) {
   res.send('respond with a ajax resource');
@@ -24,7 +26,7 @@ router.post('/getNotesByDate', function(req, res, next) {
 	+"match  (note)-[about:aboutUser]->(members) "
 	+"match  (note)-[link:linkTo]->(keyword:keyword) "
 	+"match  (note)-[create:createdBy]->(creator:user) "
-	+"return {about:members.firstname,creator:creator.firstname, keyword:keyword.keyword, details:note.details, time:createdOn.time}  as note "
+	+"return {about:members.firstname,creator:creator.firstname, keyword:keyword.keyword, details:note.details, time:createdOn.time, pics:note.pics}  as note "
 	+"order by createdOn.time DESC, members.firstname, keyword.keyword, creator.firstname, note.details ",
 	{},
 	function (err, result) {
@@ -34,7 +36,9 @@ router.post('/getNotesByDate', function(req, res, next) {
 	  var notes=result.data;
 	  notes.forEach(function(n){
 	  	n.time=moment(n.time).format("HH:mm");
+	  	n.pics=n.pics.split(',');
 	  });
+	 console.log(notes);
 	  res.json(result.data);
 	});	
 });
@@ -59,25 +63,31 @@ router.post('/AddNote', function(req, res, next) {
 	var loginUser=req.cookies.loginUser;
 	var note=req.body;
 	var today= moment().format('L');
+	var files=image.saveImage(req.body.images);
 	var query=
 		"match (creator:user {email:'"+loginUser.email+"'}) "
 		+"match (tagged:user {email:'"+note.about+"'}) "
 		+"merge (keyword:keyword {keyword:'"+note.keyword+"'}) "
 		+"merge (tagged)-[feel:feel]->(keyword) "
 		+"merge (date:date {date:'"+today+"'}) "
-		+"create (note:note {details:'"+note.detail+"', value:'"+note.value+"'}) "
+		+"create (note:note {details:'"+note.detail+"', value:'"+note.value+"', pics:'"+files+"'}) "
 		+"create (note)-[linkTo:linkTo]->(keyword) "
 		+"create (note)-[createdBy:createdBy]->(creator) "
 		+"create (note)-[aboutUser:aboutUser]->(tagged) "
 		+"create (note)-[createdOn:createdOn {time:timestamp()}]->(date) ";
+
+	console.log(query);
+		
 	db.cypherQuery(
 	query,
 	{},
 	function (err, result) {
-	  if (err) {
+	  if (err) {	  	
 	    console.log(err);
-	  }
-	  res.json(true);
+	    return
+	  }else{
+	  	res.json(true);
+	  }	  
 	});	
 });
 
