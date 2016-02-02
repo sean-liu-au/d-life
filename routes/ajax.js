@@ -36,9 +36,11 @@ router.post('/getNotesByDate', function(req, res, next) {
 	  var notes=result.data;
 	  notes.forEach(function(n){
 	  	n.time=moment(n.time).format("HH:mm");
-	  	n.pics=n.pics.split(',');
+	  	if(n.pics){
+	  		n.pics=n.pics.split(',');
+	  	}
+	  	
 	  });
-	 console.log(notes);
 	  res.json(result.data);
 	});	
 });
@@ -63,7 +65,11 @@ router.post('/AddNote', function(req, res, next) {
 	var loginUser=req.cookies.loginUser;
 	var note=req.body;
 	var today= moment().format('L');
-	var files=image.saveImage(req.body.images);
+	var files=null;
+	if(req.body.images){
+		files=image.saveImage(req.body.images);
+	}
+	
 	var query=
 		"match (creator:user {email:'"+loginUser.email+"'}) "
 		+"match (tagged:user {email:'"+note.about+"'}) "
