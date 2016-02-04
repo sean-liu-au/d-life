@@ -25,11 +25,11 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location, $timeout, $
   $scope.$watch('selectedDate', $scope.getNotesByDate);
 
   $scope.addNote =function(){
-    // var valid = $scope.keyword && $scope.detail;
-    // if(!valid){
-    //   alert("Empty note not allowed.");
-    //   return false;
-    // }
+    var valid = $scope.keyword && $scope.detail;
+    if(!valid){
+      alert("Empty note not allowed.");
+      return false;
+    }
 
     var note ={
       about:$scope.about,
@@ -38,9 +38,6 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location, $timeout, $
       value:$scope.value,
       images:resizeImage($scope.images)
     };
-
-    return false;
-
  
     $http({
       method: 'POST',
@@ -229,7 +226,7 @@ $scope.drawBarChart =function () {
       canvas.width = width;
       canvas.height = height;    
       var ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, 300, 234);     
+      ctx.drawImage(img, 0, 0, width, height);     
       res.push(canvas.toDataURL('image/jpeg')); 
     }
 
@@ -244,9 +241,6 @@ $scope.drawBarChart =function () {
       reader.onload = function (e) {
         if($scope.images.indexOf(e.target.result)<0){
           $scope.images.push(e.target.result);
-
-          //Get resized images
-
           $scope.$apply();       
         }
       }
