@@ -81,8 +81,6 @@ router.post('/AddNote', function(req, res, next) {
 		+"create (note)-[createdBy:createdBy]->(creator) "
 		+"create (note)-[aboutUser:aboutUser]->(tagged) "
 		+"create (note)-[createdOn:createdOn {time:timestamp()}]->(date) ";
-
-	console.log('~~~~~1111',query);	
 		
 	db.cypherQuery(
 	query,

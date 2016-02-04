@@ -25,19 +25,21 @@ appNptes.controller('notesCtrl', function ($scope, $http, $location, $timeout, $
   $scope.$watch('selectedDate', $scope.getNotesByDate);
 
   $scope.addNote =function(){
-    var valid = $scope.keyword && $scope.detail;
-    if(!valid){
-      alert("Empty note not allowed.");
-      return false;
-    }
+    // var valid = $scope.keyword && $scope.detail;
+    // if(!valid){
+    //   alert("Empty note not allowed.");
+    //   return false;
+    // }
 
     var note ={
       about:$scope.about,
       keyword:$scope.keyword,
       detail:$scope.detail,
       value:$scope.value,
-      images:$scope.images
+      images:resizeImage($scope.images)
     };
+
+    return false;
 
  
     $http({
@@ -199,6 +201,42 @@ $scope.drawBarChart =function () {
 
   $scope.images=[];
 
+  function resizeImage(images){
+    var res=[];
+    for(var i=images.length-1;i>=0;i--){
+      var img = new Image();
+      img.src = images[i];
+
+      var canvas = document.createElement('canvas');
+
+      var MAX_WIDTH = 800;
+      var MAX_HEIGHT = 600;
+
+      var width = img.width;
+      var height = img.height;
+       
+      if (width > height) {
+        if (width > MAX_WIDTH) {
+          height *= MAX_WIDTH / width;
+          width = MAX_WIDTH;
+        }
+      } else {
+        if (height > MAX_HEIGHT) {
+          width *= MAX_HEIGHT / height;
+          height = MAX_HEIGHT;
+        }
+      }
+      canvas.width = width;
+      canvas.height = height;    
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, 300, 234);     
+      res.push(canvas.toDataURL('image/jpeg')); 
+    }
+
+    return res;
+
+  }
+
   $scope.onSelectFiles=function(fileInput){
 
     for (var i = fileInput.files.length - 1; i >= 0; i--) {
@@ -206,6 +244,9 @@ $scope.drawBarChart =function () {
       reader.onload = function (e) {
         if($scope.images.indexOf(e.target.result)<0){
           $scope.images.push(e.target.result);
+
+          //Get resized images
+
           $scope.$apply();       
         }
       }
