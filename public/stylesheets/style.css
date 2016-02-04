@@ -68,19 +68,19 @@ input{
 }
 
 .div-preview{
-	margin: 30px;
 	display: inline-block;	
 }
 
 .div-preview img{
 	width: 100px;
 	height: 100px;
+	z-index: 0;
 }
 
 .boxclose{
-    float:right;
-/*    margin-top:-30px;
-*/    margin-right:-30px;
+	margin-left:-30px;
+	margin-top:5px;
+	vertical-align: top;
     cursor:pointer;
     color: #fff;
     border: 1px solid #AEAEAE;
@@ -91,6 +91,7 @@ input{
     display: inline-block;
     line-height: 0px;
     padding: 11px 3px;       
+    z-index: 100;
 }
 
 .boxclose:before {

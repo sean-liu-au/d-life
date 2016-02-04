@@ -32,7 +32,7 @@ block content
 			input.form-control(multiple accept="image/" id='fileUpload' type="file" ng-show="false"  onchange='angular.element(this).scope().onSelectFiles(this)') 
 			input.form-control.btnAddImages(type='button' ng-click='btnFileOnClick()' value='Add Image') 
 			div.div-preview(ng-repeat='image in images')
-				image(ng-src='{{image}}')
+				image.img-thumbnail(ng-src='{{image}}')
 				a.boxclose(ng-click='deleteImage(image)')
 			| <br><br>
 			input.btn(type="button", value="Save" ng-click='addNote()')
@@ -44,7 +44,8 @@ block content
 				p {{note.about}}, {{note.keyword}}, {{note.details}}, Written By {{note.creator}}, at {{note.time}}
 				div.div-preview(ng-repeat='pic in note.pics')
 					a(href='{{pic}}' target='_blank')
-						image(ng-src='{{pic}}')
+						image.img-thumbnail(ng-src='{{pic}}')
+				| <br><br>			
 
 
 		h3.header(ng-click='showAddNote=false;showNoteCalendar=false;showLifeD=true') 查一查 (Data Of Life)	
